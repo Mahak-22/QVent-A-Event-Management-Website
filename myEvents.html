@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>My Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-[#1E1E2F] text-[#E0E0E0] flex flex-col">
+
+<nav class="bg-[#2A2A38] p-4 flex justify-between items-center shadow-md">
+    <a href="#" class="text-2xl font-bold text-[#E0E0E0]">Qvent</a>
+    <div class="flex items-center space-x-6">
+        <a th:href="@{/organizer/Home}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Book Events</a>
+        <a th:href="@{/organizer/Dashboard}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Add Event</a>
+        <a th:href="@{/organizer/profile}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Profile</a>
+        <a th:href="@{/logout}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Logout</a>
+    </div>
+</nav>
+
+<header class="py-8 text-center">
+    <h1 class="text-4xl font-bold text-[#E0E0E0]">My Organized Events</h1>
+    <p class="text-gray-400 mt-2">Here are all the events you have organized so far</p>
+</header>
+
+<main class="flex-grow container mx-auto px-6 py-8">
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+        <div th:each="event : ${events}" class="bg-[#2A2A38] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 max-w-xs">
+            <div class="overflow-hidden">
+                <a th:href="@{/organizer/eventDetails/{id}(id = ${event.id})}">
+                <img th:src="@{/uploads/{file}(file=${event.poster})}"  alt="Event Image" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </a>
+            </div>
+
+            <div class="p-5 space-y-3">
+                <h2 class="text-2xl font-bold" th:text="${event.eventName}">Event Name</h2>
+                <p class="text-gray-400 text-sm"
+                   th:text="${#temporals.format(event.startDate, 'dd MMM yyyy')} + ' | ' + ${#temporals.format(event.startTime, 'HH:mm')}">
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

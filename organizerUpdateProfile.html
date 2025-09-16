@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #21212B;
+        color: #E0E0E0;
+    }
+    .form-container {
+        background-color: #2A2A38;
+    }
+    .input-field {
+        background-color: #313140;
+        border: 1px solid #4a4a58;
+        color: #E0E0E0;
+    }
+    .focus-ring {
+        box-shadow: 0 0 0 2px #5F4A96;
+    }
+    .btn-primary {
+            background-color: #5F4A96;
+            color: white;
+            transition-property: background-color;
+            transition-duration: 200ms;
+        }
+        .btn-primary:hover {
+            background-color: #523e87;
+        }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<nav class="bg-[#2A2A38] p-4 flex justify-between items-center flex-wrap">
+  <div class="flex items-center space-x-4">
+    <a href="#" class="text-2xl font-bold text-[#E0E0E0]">Qvent</a>
+  </div>
+  <div class="flex items-center space-x-6 mt-4 md:mt-0">
+    <nav class="mt-4 sm:mt-0 space-x-4"> <a th:href="@{/organizer/Dashboard}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Add Events</a>
+      <a th:href="@{/organizer/Home}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Book Event</a>
+      <a th:href="@{/organizer/my-events}" class="text-white hover:text-gray-400 transition duration-300 font-medium">My Events</a>
+      <a th:href="@{/organizer/profile}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Profile</a>
+      <a th:href="@{/logout}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Logout</a>
+    </nav>
+  </div>
+</nav>
+
+<div class="py-12 px-4 text-center">
+  <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#E0E0E0]">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#5F4A96] to-[#E0E0E0]">
+               Update Profile
+            </span>
+  </h1>
+</div>
+
+<div class="flex-1 flex items-center justify-center p-4 sm:p-8">
+  <div class="w-full max-w-2xl mx-auto p-8 rounded-2xl shadow-xl form-container">
+    <form th:action="@{/organizer/update-profile}"  th:object="${userDto}" method="post">
+    <h2 class="text-3xl font-bold text-center mb-8 text-[#E0E0E0]">Profile Details</h2>
+    <div class="grid grid-cols-1 gap-6">
+      <div>
+        <label for="username" class="block text-sm font-medium">Username</label>
+        <input type="text" id="username" th:field="${userDto.username}"  class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input type="text" id="email" th:field="${userDto.email}"  class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+      </div>
+      <div>
+        <label for="contact" class="block text-sm font-medium">Contact</label>
+        <input type="text" id="contact" th:field="${userDto.contact}"  class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+      </div>
+      <div>
+        <label for="address" class="block text-sm font-medium">Address</label>
+        <input type="text" id="address" th:field="${userDto.address}"  class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+      </div>
+      <div>
+        <label for="role" class="text-sm font-medium text-[#E0E0E0]">Role</label>
+        <select th:field="${userDto.role}" id="role" class="w-full mt-2 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5F4A96] appearance-none pr-10" style="background-color: #313140; border: 1px solid #4a4a58; color: #E0E0E0;">
+          <option value="USER">User</option>
+          <option value="ORGANIZER">Organizer</option>
+        </select>
+      </div>
+      <div class="flex space-x-4">
+        <button type="submit" class="w-1/2 py-3 rounded-lg font-bold text-lg btn-primary shadow-md">
+          Update Profile
+        </button>
+        <button type="reset" class="w-1/2 py-3 rounded-lg font-bold text-lg btn-primary shadow-md">
+          Reset
+        </button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

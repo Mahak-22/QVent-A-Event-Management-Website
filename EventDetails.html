@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #21212B;
+        color: #E0E0E0;
+    }
+    .form-container {
+        background-color: #2A2A38;
+    }
+    .input-field {
+        background-color: #313140;
+        border: 1px solid #4a4a58;
+        color: #E0E0E0;
+    }
+    .focus-ring {
+        box-shadow: 0 0 0 2px #5F4A96;
+    }
+    .btn-primary {
+        background-color: #5F4A96;
+        color: white;
+        transition-property: background-color;
+        transition-duration: 200ms;
+    }
+    .btn-primary:hover {
+        background-color: #523e87;
+    }
+    dialog {
+        border: none;
+        border-radius: 1rem;
+        padding: 2rem;
+        background-color: #2A2A38;
+        color: #E0E0E0;
+        max-width: 90%;
+        width: 430px;
+        min-height :230px;
+
+    }
+    dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.75);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<nav class="bg-[#2A2A38] p-4 flex justify-between items-center flex-wrap">
+  <div class="flex items-center space-x-4">
+    <a href="#" class="text-2xl font-bold text-[#E0E0E0]">Qvent</a>
+  </div>
+  <div class="flex items-center space-x-6 mt-4 md:mt-0">
+    <nav class="mt-4 sm:mt-0 space-x-4">
+      <a th:href="@{/organizer/Home}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Book Event</a>
+      <a th:href="@{/organizer/Dashboard}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Add Event</a>
+      <a th:href="@{/organizer/my-events}" class="text-white hover:text-gray-400 transition duration-300 font-medium">My Events</a>
+      <a th:href="@{/organizer/profile}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Profile</a>
+      <a th:href="@{/logout}" class="text-white hover:text-gray-400 transition duration-300 font-medium">Logout</a>
+    </nav>
+  </div>
+</nav>
+
+<div class="py-12 px-4 text-center">
+  <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#E0E0E0]">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#5F4A96] to-[#E0E0E0]">
+                Create Your Next Event
+            </span>
+  </h1>
+  <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
+    Fill out the details below to bring your event to life.
+  </p>
+</div>
+
+<div class="flex-1 flex items-center justify-center p-4 sm:p-8">
+  <div class="w-full max-w-2xl mx-auto p-8 rounded-2xl shadow-xl form-container">
+    <h2 class="text-3xl font-bold text-center mb-8 text-[#E0E0E0]">Event Details</h2>
+    <form id="createEventForm" th:action="@{/organizer/addEvent}" th:object="${dto}" method="post" enctype="multipart/form-data" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="eventName" class="block text-sm font-medium">Event Name</label>
+          <input type="text" id="eventName" th:field="*{eventName}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="mode" class="block text-sm font-medium">Mode</label>
+          <select id="mode" th:field="*{mode}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required>
+            <option value="">Select Mode</option>
+            <option value="online">Online</option>
+            <option value="offline">Offline</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+        </div>
+        <div>
+          <label for="eventType" class="block text-sm font-medium">Event Type</label>
+          <input type="text" id="eventType" th:field="*{eventType}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="ageLimit" class="block text-sm font-medium">Age Limit</label>
+          <input type="text" id="ageLimit" th:field="*{ageLimit}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="eventStartDate" class="block text-sm font-medium">Start Date</label>
+          <input type="date" id="eventStartDate" th:field="*{startDate}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="eventEndDate" class="block text-sm font-medium">End Date</label>
+          <input type="date" id="eventEndDate" th:field="*{endDate}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <input type="hidden" name="organizingBodyId" th:field="*{organizingBody.id}" />
+        <div>
+          <label for="eventStartTime" class="block text-sm font-medium">Start Time</label>
+          <input type="time" id="eventStartTime" th:field="*{startTime}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="eventEndTime" class="block text-sm font-medium">End Time</label>
+          <input type="time" id="eventEndTime" th:field="*{endTime}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="eventVenue" class="block text-sm font-medium">Event Venue</label>
+          <input type="text" id="eventVenue" th:field="*{venue}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="eventTicketPrice" class="block text-sm font-medium">Ticket Price per person</label>
+          <input type="text" id="eventTicketPrice" th:field="*{ticketPrice}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="registerDeadline" class="block text-sm font-medium">Register Deadline</label>
+          <input type="date" id="registerDeadline" th:field="*{regDeadline}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+        <div>
+          <label for="earlyBirdPrice" class="block text-sm font-medium">Early bird Price</label>
+          <input type="text" id="earlyBirdPrice" th:field="*{earlyBirdPrice}" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+        </div>
+      </div>
+      <div>
+        <label for="eventDescription" class="block text-sm font-medium">Event Description (in 200-700 words)</label>
+        <textarea id="eventDescription" th:field="*{description}" rows="4" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required></textarea>
+      </div>
+      <div>
+        <label for="eventImage" class="block text-sm font-medium">Event Poster/Image</label>
+        <input type="file" id="eventImage" name="eventImage"  accept="image/*" class="w-full mt-2 p-3 rounded-lg focus:outline-none focus-ring input-field" required/>
+      </div>
+      <div class="flex space-x-4">
+        <button type="submit" class="w-1/2 py-3 rounded-lg font-bold text-lg btn-primary shadow-md">
+          Create Event
+        </button>
+        <button type="reset" class="w-1/2 py-3 rounded-lg font-bold text-lg btn-primary shadow-md">
+          Reset
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<dialog id="confirmationDialog">
+  <div class="text-center">
+    <br>
+    <h3 class="text-xl font-bold sm-4">Event Creation Confirmation 🚀</h3><br>
+    <p class="text-sm mb-6">By submitting this event, <br>
+        I confirm that I have read and agree to the Terms & Conditions, <br>
+      including commission and cancellation policies.</p>
+    <div class="flex justify-center space-x-4">
+      <button onclick="closeConfirmationDialog()" class="py-1.5 px-5 rounded-lg font-bold text-lg border border-gray-500 text-gray-300 transition-colors duration-200 hover:bg-gray-700">Cancel</button>
+      <button onclick="submitForm()" class="py-1.5 px-5 rounded-lg font-bold text-lg btn-primary transition-colors duration-200">Yes, Create Event!!</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  function showConfirmationDialog() {
+      const form = document.getElementById('createEventForm');
+      if (form.checkValidity()) {
+          document.getElementById('confirmationDialog').showModal();
+      } else {
+          form.reportValidity();
+      }
+  }
+
+  function closeConfirmationDialog() {
+      document.getElementById('confirmationDialog').close();
+  }
+
+  function submitForm() {
+      document.getElementById('createEventForm').submit();
+  }
+</script>
+</body>
+</html>
